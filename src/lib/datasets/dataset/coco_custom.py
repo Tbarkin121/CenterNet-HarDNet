@@ -11,7 +11,7 @@ import os
 import torch.utils.data as data
 
 class COCO_MOD(data.Dataset):
-  num_classes = 6
+  num_classes = 5
   default_resolution = [512, 512]
   mean = np.array([0.40789654, 0.44719302, 0.47026115],
                    dtype=np.float32).reshape(1, 1, 3)
@@ -66,8 +66,7 @@ class COCO_MOD(data.Dataset):
     self.images = []
     for name in class_name:
         catIds.append(self.coco.getCatIds(catNms=name)[0])
-    for id in catIds:
-        new_imgIds = self.coco.getImgIds(catIds=id)
+        new_imgIds = self.coco.getImgIds(catIds=catIds[-1]) 
         self.images.extend(new_imgIds)
 
     self.num_samples = len(self.images)
@@ -81,6 +80,7 @@ class COCO_MOD(data.Dataset):
     detections = []
     for image_id in all_bboxes:
       for cls_ind in all_bboxes[image_id]:
+        print('cls_ind = {}'.format(cls_ind))
         category_id = self._valid_ids[cls_ind - 1]
         for bbox in all_bboxes[image_id][cls_ind]:
           bbox[2] -= bbox[0]
