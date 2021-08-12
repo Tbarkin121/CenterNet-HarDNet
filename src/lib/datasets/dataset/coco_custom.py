@@ -10,7 +10,7 @@ import os
 
 import torch.utils.data as data
 
-class COCO_CUSTOM(data.Dataset):
+class COCO_MOD(data.Dataset):
   num_classes = 6
   default_resolution = [512, 512]
   mean = np.array([0.40789654, 0.44719302, 0.47026115],
@@ -19,7 +19,8 @@ class COCO_CUSTOM(data.Dataset):
                    dtype=np.float32).reshape(1, 1, 3)
 
   def __init__(self, opt, split):
-    super(COCO_CUSTOM, self).__init__()
+    super(COCO_MOD, self).__init__()
+
     self.data_dir = os.path.join(opt.data_dir, 'coco')
     self.img_dir = os.path.join(self.data_dir, '{}2017'.format(split))
     if split == 'test':
@@ -58,9 +59,18 @@ class COCO_CUSTOM(data.Dataset):
 
     print('==> initializing coco 2017 {} data.'.format(split))
     self.coco = coco.COCO(self.annot_path)
-    self.images = self.coco.getImgIds()
-    self.num_samples = len(self.images)
+    # self.images = self.coco.getImgIds()
 
+    class_name = ['person', 'car', 'truck', 'cat', 'dog']
+    catIds = []
+    self.images = []
+    for name in class_name:
+        catIds.append(self.coco.getCatIds(catNms=name)[0])
+    for id in catIds:
+        new_imgIds = self.coco.getImgIds(catIds=id)
+        self.images.extend(new_imgIds)
+
+    self.num_samples = len(self.images)
     print('Loaded {} {} samples'.format(split, self.num_samples))
 
   def _to_float(self, x):
