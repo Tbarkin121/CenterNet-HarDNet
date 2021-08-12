@@ -61,7 +61,7 @@ class CtdetLoss(torch.nn.Module):
             mask_weight) / opt.num_stacks
           off_loss += (self.crit_wh(out_off            * batch['dense_wh_mask'],
                                     batch['dense_off'] * batch['dense_wh_mask']) /
-                       mask_weight) / opt.num_stacks
+                      mask_weight) / opt.num_stacks
         
     loss = opt.hm_weight * hm_loss + opt.wh_weight * wh_loss + opt.off_weight * off_loss
     loss_stats = {'loss': loss, 'hm_loss': hm_loss,
