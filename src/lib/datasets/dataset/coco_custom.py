@@ -11,7 +11,7 @@ import os
 import torch.utils.data as data
 
 class COCO_MOD(data.Dataset):
-  num_classes = 5
+  num_classes = 3
   default_resolution = [512, 512]
   mean = np.array([0.40789654, 0.44719302, 0.47026115],
                    dtype=np.float32).reshape(1, 1, 3)
@@ -38,8 +38,9 @@ class COCO_MOD(data.Dataset):
           'instances_{}2017.json').format(split)
     self.max_objs = 128
     self.class_name = [
-      '__background__', 'person', 'car', 'truck', 'cat', 'dog']
-    self._valid_ids = [1, 3, 8, 17, 18]
+      '__background__', 'person', 'vehicle', 'animal']
+    # self._valid_ids = [1, 3, 8, 17, 18]
+    self._valid_ids = [1, 2, 3]
     self.cat_ids = {v: i for i, v in enumerate(self._valid_ids)}
     self.voc_color = [(v // 32 * 64 + 64, (v // 8) % 4 * 64, v % 8 * 32) \
                       for v in range(1, self.num_classes + 1)]

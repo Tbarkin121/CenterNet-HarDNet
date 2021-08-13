@@ -152,16 +152,14 @@ class CTDetDataset_mod(data.Dataset):
     # print('len(anns) = {}'.format(len(anns)))
     # print('anns = {}'.format(anns))
 
-    # for i in reversed(range(len(anns))):
-    #     # print('i = {}'.format(i))
-    #     if(anns[i]['category_id'] not in self._valid_ids):
-    #         # print('valid_ids = {}'.format(self._valid_ids))
-    #         # print('anns[{}][\'category_id\'] = {}'.format(i, anns[i]['category_id']))
-    #         del anns[i]
-
-    # for i in reversed(range(len(anns))):
-    #     print('i = {}'.format(i))
-    #     print('anns[{}][\'category_id\'] = {}'.format(i, anns[i]['category_id']))
+    for i in range(len(anns)):
+      # Leaving anns = 1 as person (1)
+      # anns = 2 will be vehicles (3, 8)
+      # anns = 3 will be animals (17, 18)
+        if(anns[i]['category_id'] == 3 or anns[i]['category_id'] == 8):
+          anns[i]['category_id'] = 2
+        if(anns[i]['category_id'] == 17 or anns[i]['category_id'] == 18):
+          anns[i]['category_id'] = 3
 
     return self.img_transform(img, anns, flip_en=flip_en, scale_lv=scale_lv, out_shift=out_shift, crop=crop)
 

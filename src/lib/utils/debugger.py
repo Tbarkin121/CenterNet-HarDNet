@@ -43,7 +43,7 @@ class Debugger(object):
         (255, 0, 0), (0, 0, 255)]
     elif num_classes == 80 or dataset == 'coco':
       self.names = coco_class_name
-    elif num_classes == 6 or dataset == 'coco_mod':
+    elif num_classes == 3 or dataset == 'coco_mod':
       self.names = coco_mod_class_name
     elif num_classes == 20 or dataset == 'pascal':
       self.names = pascal_class_name
@@ -459,7 +459,7 @@ coco_class_name = [
 ]
 
 coco_mod_class_name = [
-     'person', 'car', 'truck', 'cat', 'dog'
+     'person', 'vehicle', 'animal'
 ]
 
 color_list = np.array(
