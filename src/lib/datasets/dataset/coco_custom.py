@@ -62,11 +62,11 @@ class COCO_MOD(data.Dataset):
     # self.images = self.coco.getImgIds()
 
     class_name = ['person', 'car', 'truck', 'cat', 'dog']
-    catIds = []
+    self.catIds = []
     self.images = []
     for name in class_name:
-        catIds.append(self.coco.getCatIds(catNms=name)[0])
-        new_imgIds = self.coco.getImgIds(catIds=catIds[-1]) 
+        self.catIds.append(self.coco.getCatIds(catNms=name)[0])
+        new_imgIds = self.coco.getImgIds(catIds=self.catIds[-1]) 
         self.images.extend(new_imgIds)
 
     self.num_samples = len(self.images)

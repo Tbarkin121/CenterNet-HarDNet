@@ -138,7 +138,7 @@ class CTDetDataset_mod(data.Dataset):
     img_id = self.images[index]
     file_name = self.coco.loadImgs(ids=[img_id])[0]['file_name']
     img_path = os.path.join(self.img_dir, file_name)
-    ann_ids = self.coco.getAnnIds(imgIds=[img_id])
+    ann_ids = self.coco.getAnnIds(imgIds=[img_id], catIds=self.catIds)
     
     anns = self.coco.loadAnns(ids=ann_ids)
     img = cv2.imread(img_path)
@@ -151,12 +151,13 @@ class CTDetDataset_mod(data.Dataset):
     # print('ann_ids = {}'.format(ann_ids))
     # print('len(anns) = {}'.format(len(anns)))
     # print('anns = {}'.format(anns))
-    for i in reversed(range(len(anns))):
-        # print('i = {}'.format(i))
-        if(anns[i]['category_id'] not in self._valid_ids):
-            # print('valid_ids = {}'.format(self._valid_ids))
-            # print('anns[{}][\'category_id\'] = {}'.format(i, anns[i]['category_id']))
-            del anns[i]
+
+    # for i in reversed(range(len(anns))):
+    #     # print('i = {}'.format(i))
+    #     if(anns[i]['category_id'] not in self._valid_ids):
+    #         # print('valid_ids = {}'.format(self._valid_ids))
+    #         # print('anns[{}][\'category_id\'] = {}'.format(i, anns[i]['category_id']))
+    #         del anns[i]
 
     # for i in reversed(range(len(anns))):
     #     print('i = {}'.format(i))
